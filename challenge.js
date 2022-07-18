@@ -1,39 +1,75 @@
 "use strict";
 
 const imperativeLongestWord = function (sentence) {
-  // create a copy of the argument
+  // 1. Create a copy of the argument
   let testSentence = sentence;
 
-  // ensure string is in lower case
+  // 2. Ensure string is in lower case
   testSentence = testSentence.toLowerCase();
 
-  // convert the sentence string to an array
+  // 3. Convert the sentence string to an array
   const sentenceArr = testSentence.split(" ");
 
-  // remove characters that are not letters from each word
+  // 4. Remove characters that are not letters from each word
   const cleanArr = sentenceArr.map((word) => word.replace(/[^a-zA-Z ]/g, ""));
 
-  // sort the array
+  // 5. Sort the array
   const sortedArr = cleanArr.sort((a, b) => b.length - a.length);
 
-  // create array of the longest characters ie word with the same lenth as the first element
+  // 6. Create array of the longest characters ie word with the same lenth as the first element
   const longestArr = sortedArr.filter((word) => word.length === sortedArr[0].length);
 
-  // check if we have two or more 'longest' words, if not we return
+  // 7. Check if we have two or more 'longest' words
   if (longestArr.length > 1) {
-    //find the word with the most vowels
-    const maxVovels = longestArr.map((word) => word.match(/[aeiou]/gi).length);
-    const maxVovel = Math.max(...maxVovels);
-    const maxVowelIndex = maxVovels.indexOf(maxVovel);
+    // 8. Find the word with the most vowels and return it
+    const vowelOccurencesArr = longestArr.map((word) => word.match(/[aeiou]/gi).length);
+    const maxVovel = Math.max(...vowelOccurencesArr);
+    const maxVowelIndex = vowelOccurencesArr.indexOf(maxVovel);
 
     return longestArr[maxVowelIndex];
   } else {
+    // 8. If not we return the only word in the array
+    return String(longestArr);
+  }
+};
+
+const declarativeLongestWord = function (sentence) {
+  // 1. Ensure string is in lower case
+  // 2. Convert the sentence string to an array
+  // 3. Remove characters that are not letters from each word
+  // 4. Sort the array
+
+  const sortedArr = sentence
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.replace(/[^a-zA-Z ]/g, ""))
+    .sort((a, b) => b.length - a.length);
+
+  // 5. Create array of the longest characters ie word with the same lenth as the first element
+  const longestArr = sortedArr.filter((word) => word.length === sortedArr[0].length);
+
+  // 6. Check if we have two or more 'longest' words
+  if (longestArr.length > 1) {
+    // 7. Find the word with the most vowels and return it
+    const vowelOccurencesArr = longestArr.map((word) => word.match(/[aeiou]/gi).length);
+    const maxVovel = Math.max(...vowelOccurencesArr);
+    const maxVowelIndex = vowelOccurencesArr.indexOf(maxVovel);
+
+    return longestArr[maxVowelIndex];
+  } else {
+    // 7. If not we return the only word in the array
     return String(longestArr);
   }
 };
 
 console.log(
   imperativeLongestWord(
-    "Smart people learn from everything and everyone, average people from their experience, stupid people already, have all the answers"
+    "Smart people learn from everything and everyone, average people from their  experience, stupid people already, have all the answers"
+  )
+);
+
+console.log(
+  declarativeLongestWord(
+    "Smart people learn from everything and everyone, average people from their  experience, stupid people already, have all the answers"
   )
 );
